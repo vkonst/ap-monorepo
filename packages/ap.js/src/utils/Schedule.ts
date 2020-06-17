@@ -1,10 +1,6 @@
 import Web3Utils from 'web3-utils';
 
-import { IEngine } from '@atpar/ap-contracts/ts-bindings/IEngine';
-
-import { denormalizeDate, deriveGeneratingTermsFromExtendedTemplateTerms } from './Conversion';
-import { ExtendedTemplateTerms } from '../types';
-
+import { denormalizeDate } from './Conversion';
 
 export function getEpochOffsetForEventType (eventType: string): number {
   if (eventType === '1') { return 20; } // IED
@@ -39,25 +35,25 @@ export function deriveScheduleFromTemplateSchedule(anchorDate: string | number, 
   return schedule;
 }
 
-export async function computeTemplateScheduleFromExtendedTemplateTerms(
-  engine: IEngine,
-  extendedTemplateTerms: ExtendedTemplateTerms
-): Promise<string[]> {
-  const generatingTerms = deriveGeneratingTermsFromExtendedTemplateTerms(extendedTemplateTerms);
-  const { maturityDate } = generatingTerms;
-  const templateSchedule = [];
+// export async function computeTemplateScheduleFromExtendedTemplateTerms(
+//   engine: IEngine,
+//   extendedTemplateTerms: ExtendedTemplateTerms
+// ): Promise<string[]> {
+//   const generatingTerms = deriveGeneratingTermsFromExtendedTemplateTerms(extendedTemplateTerms);
+//   const { maturityDate } = generatingTerms;
+//   const templateSchedule = [];
 
-  templateSchedule.push(...(await engine.methods.computeNonCyclicScheduleSegment(generatingTerms, 0, maturityDate).call()));
-  templateSchedule.push(...(await engine.methods.computeCyclicScheduleSegment(generatingTerms, 0, maturityDate, 2).call()));
-  templateSchedule.push(...(await engine.methods.computeCyclicScheduleSegment(generatingTerms, 0, maturityDate, 3).call()));
-  templateSchedule.push(...(await engine.methods.computeCyclicScheduleSegment(generatingTerms, 0, maturityDate, 6).call()));
-  templateSchedule.push(...(await engine.methods.computeCyclicScheduleSegment(generatingTerms, 0, maturityDate, 8).call()));
-  templateSchedule.push(...(await engine.methods.computeCyclicScheduleSegment(generatingTerms, 0, maturityDate, 9).call()));
-  templateSchedule.push(...(await engine.methods.computeCyclicScheduleSegment(generatingTerms, 0, maturityDate, 12).call()));
-  templateSchedule.push(...(await engine.methods.computeCyclicScheduleSegment(generatingTerms, 0, maturityDate, 17).call()));
+//   templateSchedule.push(...(await engine.methods.computeNonCyclicScheduleSegment(generatingTerms, 0, maturityDate).call()));
+//   templateSchedule.push(...(await engine.methods.computeCyclicScheduleSegment(generatingTerms, 0, maturityDate, 2).call()));
+//   templateSchedule.push(...(await engine.methods.computeCyclicScheduleSegment(generatingTerms, 0, maturityDate, 3).call()));
+//   templateSchedule.push(...(await engine.methods.computeCyclicScheduleSegment(generatingTerms, 0, maturityDate, 6).call()));
+//   templateSchedule.push(...(await engine.methods.computeCyclicScheduleSegment(generatingTerms, 0, maturityDate, 8).call()));
+//   templateSchedule.push(...(await engine.methods.computeCyclicScheduleSegment(generatingTerms, 0, maturityDate, 9).call()));
+//   templateSchedule.push(...(await engine.methods.computeCyclicScheduleSegment(generatingTerms, 0, maturityDate, 12).call()));
+//   templateSchedule.push(...(await engine.methods.computeCyclicScheduleSegment(generatingTerms, 0, maturityDate, 17).call()));
 
-  return sortEvents(removeNullEvents(templateSchedule));
-}
+//   return sortEvents(removeNullEvents(templateSchedule));
+// }
 
 export function sortEvents (_events: string[]): string[] {
   _events.sort((_eventA, _eventB): number => {

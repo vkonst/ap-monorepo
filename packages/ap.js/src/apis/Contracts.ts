@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 
-import IAssetActorArtifact from '@atpar/ap-contracts/artifacts/IAssetActor.min.json';
+// import IAssetActorArtifact from '@atpar/ap-contracts/artifacts/IAssetActor.min.json';
 import IAssetRegistryArtifact from '@atpar/ap-contracts/artifacts/IAssetRegistry.min.json';
 import IEngineArtifact from '@atpar/ap-contracts/artifacts/IEngine.min.json';
 import ANNEngineArtifact from '@atpar/ap-contracts/artifacts/ANNEngine.min.json';
@@ -21,10 +21,11 @@ import FDTFactoryArtifact from '@atpar/ap-contracts/artifacts/FDTFactory.min.jso
 import ERC20Artifact from '@atpar/ap-contracts/artifacts/ERC20.min.json';
 import ERC1404Artifact from '@atpar/ap-contracts/artifacts/ERC1404.min.json';
 import VanillaFDTArtifact from '@atpar/ap-contracts/artifacts/VanillaFDT.min.json';
-
-import { IAssetActor } from '@atpar/ap-contracts/ts-bindings/IAssetActor';
+//@ts-ignore
+// import { IAssetActor } from '@atpar/ap-contracts/ts-bindings/IAssetActor';
 import { IAssetRegistry } from '@atpar/ap-contracts/ts-bindings/IAssetRegistry';
-import { IEngine } from '@atpar/ap-contracts/ts-bindings/IEngine';
+//@ts-ignore
+// import { IEngine } from '@atpar/ap-contracts/ts-bindings/IEngine';
 import { ANNEngine } from '@atpar/ap-contracts/ts-bindings/ANNEngine';
 import { CECEngine } from '@atpar/ap-contracts/ts-bindings/CECEngine';
 import { CEGEngine } from '@atpar/ap-contracts/ts-bindings/CEGEngine';
@@ -49,9 +50,9 @@ import { AddressBook, isAddressBook } from '../types';
 
 export class Contracts {
 
-  private _assetActor: IAssetActor;
-  private _assetRegistry: IAssetRegistry;
-  private _engine: IEngine;
+  // private _assetActor: IAssetActor;
+  // private _assetRegistry: IAssetRegistry;
+  // private _engine: IEngine;
   private _erc20: ERC20;
   private _erc1404: ERC1404;
   private _erc2222: VanillaFDT;

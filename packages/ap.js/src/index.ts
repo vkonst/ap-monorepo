@@ -6,7 +6,7 @@ import * as APTypes from './types';
 import { Asset } from './Asset';
 import { Order } from './Order';
 import { Template } from './Template';
-import { Contracts, Signer, Utils } from './apis';
+import { Contracts, Utils } from './apis';
 import { AddressBook } from './types';
 
 
@@ -15,72 +15,45 @@ export class AP {
   public web3: Web3;
   
   public contracts: Contracts;
-  public signer: Signer;
+  public signerAddress: string;
   public utils = Utils;
 
   private constructor (
     web3: Web3,
     contracts: Contracts,
-    signer: Signer
+    signerAddress: string
   ) {
     this.web3 = web3;
 
     this.contracts = contracts;
-    this.signer = signer;
+    this.signerAddress = signerAddress;
   }
 
-  /**
-   * Listen for new issued assets in which the default account is involved.
-   * @param {(asset: Asset) => void} cb callback function to be called after 
-   * a new asset in which the default account is involved is issued
-   */
-  public onNewAssetIssued (cb: (asset: Asset) => void): void {
-    this.contracts.assetIssuer.events.IssuedAsset().on('data', async (event): Promise<void> => {
-      if (
-        !event 
-        || !event.returnValues 
-        || !event.returnValues.assetId 
-        || !event.returnValues.creator 
-        || !event.returnValues.counterparty
-      ) { throw new Error('Malformed event returned.'); }
+  // /**
+  //  * Returns an array of assetIds of assets in which the default account is involved.
+  //  * @returns {Promise<string[]>}
+  //  */
+  // public async getAssetIds (): Promise<string[]> {
+  //   const issuances = await this.contracts.assetIssuer.getPastEvents('IssuedAsset', { filter: {}, fromBlock: 0, toBlock: 'latest' });
+  //   const assetIds = [];
 
-      if (
-        event.returnValues.creator !== this.signer.account &&
-        event.returnValues.counterparty !== this.signer.account
-      ) { return; }
-      
-      try {
-        const asset = await Asset.load(this, event.returnValues.assetId);
-        cb(asset);
-      } catch (error) { console.log(error); }
-    });
-  }
+  //   for (const issuance of issuances) {
+  //     if (
+  //       !issuance 
+  //       || !issuance.returnValues 
+  //       || !issuance.returnValues.assetId 
+  //       || !issuance.returnValues.creator 
+  //       || !issuance.returnValues.counterparty
+  //     ) { throw new Error(''); }
 
-  /**
-   * Returns an array of assetIds of assets in which the default account is involved.
-   * @returns {Promise<string[]>}
-   */
-  public async getAssetIds (): Promise<string[]> {
-    const issuances = await this.contracts.assetIssuer.getPastEvents('IssuedAsset', { filter: {}, fromBlock: 0, toBlock: 'latest' });
-    const assetIds = [];
+  //     if (
+  //       issuance.returnValues.creator === this.signer.account ||
+  //       issuance.returnValues.counterparty === this.signer.account
+  //     ) { assetIds.push(issuance.returnValues.assetId); }
+  //   }
 
-    for (const issuance of issuances) {
-      if (
-        !issuance 
-        || !issuance.returnValues 
-        || !issuance.returnValues.assetId 
-        || !issuance.returnValues.creator 
-        || !issuance.returnValues.counterparty
-      ) { throw new Error(''); }
-
-      if (
-        issuance.returnValues.creator === this.signer.account ||
-        issuance.returnValues.counterparty === this.signer.account
-      ) { assetIds.push(issuance.returnValues.assetId); }
-    }
-
-    return assetIds;
-  }
+  //   return assetIds;
+  // }
 
   /**
    * Returns a new AP instance.
@@ -109,9 +82,8 @@ export class AP {
     }
 
     const contracts = new Contracts(web3, addressBook);
-    const signer = new Signer(web3, defaultAccount, addressBook.AssetIssuer);
-
-    return new AP(web3, contracts, signer);
+    // const signer = new Signer(web3, defaultAccount, addressBook.AssetIssuer);
+    return new AP(web3, contracts, defaultAccount);
   }
 }
 

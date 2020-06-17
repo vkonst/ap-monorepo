@@ -1,18 +1,43 @@
 import { ZERO_ADDRESS } from "../utils/Constants";
 
+// export interface AddressBook {
+//   ANNEngine: string;
+//   AssetActor: string;
+//   AssetIssuer: string;
+//   AssetRegistry: string;
+//   CEGEngine: string;
+//   CECEngine: string;
+//   Custodian: string;
+//   MarketObjectRegistry: string;
+//   PAMEngine: string;
+//   TemplateRegistry: string;
+//   SignedMath: string;
+//   TokenizationFactory: string;
+// }
+
 export interface AddressBook {
-  ANNEngine: string;
-  AssetActor: string;
-  AssetIssuer: string;
-  AssetRegistry: string;
-  CEGEngine: string;
-  CECEngine: string;
-  Custodian: string;
-  MarketObjectRegistry: string;
-  PAMEngine: string;
-  TemplateRegistry: string;
-  SignedMath: string;
-  TokenizationFactory: string;
+ ANNActor: string;
+ ANNEncoder: string;
+ ANNEngine: string;
+ ANNRegistry: string;
+ CECActor: string;
+ CECEncoder: string;
+ CECEngine: string;
+ CECRegistry: string;
+ CEGActor: string;
+ CEGEncoder: string;
+ CEGEngine: string;
+ CEGRegistry: string;
+ Custodian: string;
+ FDTFactory: string;
+ MarketObjectRegistry: string;
+ PAMActor: string;
+ PAMEncoder: string;
+ PAMEngine: string;
+ PAMRegistry: string;
+ ScheduleEncoder: string;
+ SignedMath: string;
+ StateEncoder: string;
 }
 
 export interface AssetOwnership {
